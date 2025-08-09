@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 # Byte-compiled / optimized / DLL file
 google-credential.json
+=======
+# Byte-compiled / optimized / DLL files
+>>>>>>> 2b18e5628c84985710f9bfc13597d5a0b4005ab2
 __pycache__/
 *.py[codz]
 *$py.class
