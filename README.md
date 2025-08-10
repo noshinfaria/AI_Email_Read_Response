@@ -38,7 +38,7 @@ python watch.py
 ```
 
 Now login with login API
-``http
+```http
 http://localhost/login
 ```
 
