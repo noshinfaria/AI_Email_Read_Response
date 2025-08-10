@@ -1,17 +1,46 @@
+
 # models.py
-from sqlalchemy import Column, String
-from sqlalchemy.ext.declarative import declarative_base
+from pydantic import BaseModel, Field, EmailStr
+from typing import Optional
+from motor.motor_asyncio import AsyncIOMotorClient
+from bson import ObjectId
 
-Base = declarative_base()
+# Utility for ObjectId validation & conversion
+class PyObjectId(ObjectId):
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate
 
-class User(Base):
-    __tablename__ = 'users'
+    @classmethod
+    def validate(cls, v):
+        if not ObjectId.is_valid(v):
+            raise ValueError("Invalid ObjectId")
+        return ObjectId(v)
 
-    id = Column(String, primary_key=True)  # Google sub
-    email = Column(String, unique=True)
-    token = Column(String)
-    refresh_token = Column(String)
-    token_uri = Column(String)
-    client_id = Column(String)
-    client_secret = Column(String)
-    scopes = Column(String)  # store as comma-separated string
+    @classmethod
+    def __modify_schema__(cls, field_schema):
+        field_schema.update(type="string")
+
+# Pydantic User model for validation and response
+class User(BaseModel):
+    id: str = Field(..., alias="_id")  # Use Google sub as the Mongo _id string
+    email: Optional[EmailStr]
+    token: Optional[str]
+    refresh_token: Optional[str]
+    token_uri: Optional[str]
+    client_id: Optional[str]
+    client_secret: Optional[str]
+    scopes: Optional[str]  # comma-separated scopes
+    last_history_id: Optional[int]
+
+    class Config:
+        validate_by_name = True
+        arbitrary_types_allowed = True
+        json_encoders = {ObjectId: str}
+
+# MongoDB client and DB instance
+client = AsyncIOMotorClient("mongodb+srv://myndydev:kDmqiJbCQTihrRFx@cluster0.pjwrm2q.mongodb.net/myndy-ai-worker")
+DATABASE_NAME="myndy-ai-worker"
+COLLECTION_NAME="users_mail_history"
+db = client[DATABASE_NAME]
+users_collection = db[COLLECTION_NAME]

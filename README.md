@@ -1,10 +1,9 @@
-<<<<<<< HEAD
-## Gmail_and_Lead_Collection
-This is a project that uses gmail APIs to login for any user and fetch users email dynamically to collect leads.
+## AI Email Read and Reply
+This is a project that uses gmail APIs to login for any user and fetch users email dynamically. After two secs if the email stays "UNREAD", this system make it "READ" and reply with an AI generated email.
 
 ## Clone Repository
 ```http
-git@github.com:noshinfaria/Gmail_and_Lead_Collection.git
+git@github.com:noshinfaria/AI_Email_Read_Response.git
 ```
 
 ## Create and activate virtual environment
@@ -35,10 +34,12 @@ Here API Route: /gmail/webhook
 
 ## Execute pub_sub_watch.py file in another terminal tab
 ```bash
-python pub_sub_watch.py
+python watch.py
 ```
 
-Now login with login API and send email to that account. You will see real time email ofetch in your uvicorn running terminal tab.
-=======
-# AI_Email_Read_Response
->>>>>>> 2b18e5628c84985710f9bfc13597d5a0b4005ab2
+Now login with login API
+``http
+http://localhost/login
+```
+
+Send email to that account. You will see real time email fetch in your uvicorn running terminal tab and after two secs it will proceed to find out the email status. If it would be "UNREAD", the system modify it as "READ", generate response of that email body and reply automatically.

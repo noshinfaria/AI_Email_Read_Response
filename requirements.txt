@@ -5,4 +5,9 @@ google-api-python-client
 uvicorn
 fastapi
 python-dotenv
-sqlalchemy
+motor 
+pydantic[email]
+langchain
+langchain_community
+langchain-openai
+python-dotenv
