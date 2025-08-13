@@ -23,7 +23,8 @@ class PyObjectId(ObjectId):
 
 # Pydantic User model for validation and response
 class User(BaseModel):
-    id: str = Field(..., alias="_id")  # Use Google sub as the Mongo _id string
+    id: Optional[str] = Field(default=None, alias="_id")  # Use Google sub as the Mongo _id string
+    user_id: Optional[str]
     email: Optional[EmailStr]
     token: Optional[str]
     refresh_token: Optional[str]
@@ -41,6 +42,9 @@ class User(BaseModel):
 # MongoDB client and DB instance
 client = AsyncIOMotorClient("mongodb+srv://myndydev:kDmqiJbCQTihrRFx@cluster0.pjwrm2q.mongodb.net/myndy-ai-worker")
 DATABASE_NAME="myndy-ai-worker"
-COLLECTION_NAME="users_mail_history"
+mail_histor="users_mail_history"
+state ="oauth_states"
 db = client[DATABASE_NAME]
-users_collection = db[COLLECTION_NAME]
+users_collection = db[mail_histor]
+state_collection = db[state]
+mail_service_token_collection = db["mail_service_tokens"]
